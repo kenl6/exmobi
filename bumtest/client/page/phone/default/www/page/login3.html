@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="format-detection" content="telephone=no">
+		<title>login3</title>
+		<link rel="stylesheet" href="../plugin/seedsui/seedsui.min.css">
+		<style type="text/css">
+			#loginbox {
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cce6f6), color-stop(100%,#f9fcf4));
+				min-height: 370px;
+			}
+			.login-logo {
+				width: 88px;
+				height: 88px;
+				border-radius: 100%;
+				background-color: #f8f8f8;
+				text-align: center;
+				background-image: url(../img/login3/logo.png);
+				background-size: 70px 70px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				border: 2px solid white;
+				margin: 30px auto 20px auto;
+			}
+			.login_btm {
+				position: absolute;
+				bottom: 30px;
+				width: 88%;
+				margin-left: 6%;
+			}
+		</style>
+	</head>
+
+	<body ontouchstart="">
+		<form id="loginbox" class="body-box">
+			<div class="login-logo"></div>
+			<div class="group">
+				<div class="input-box" data-input="clear" style="border-width:0 0 1px 0;">
+					<input id="username" name="username" type="text" placeholder="请输入账号"/>
+					<i class="icon icon-clear-fill color-placeholder"></i>
+				</div>
+				<div class="input-box" data-input="reveal">
+					<input id="password" name="password" type="password" placeholder="请输入密码"/>
+					<i class="icon icon-eye-fill color-placeholder"></i>
+				</div>
+			</div>
+			<a id="login-btn" class="button block" style="margin:20px 12px;" href="#">登录</a>
+			<footer style="padding:40px 0;">
+				<a class="float-left" style="margin-left:20px;">忘记密码？</a>
+				<a class="float-right" style="margin-right:20px;">注册</a>
+			</footer>
+		</form>
+
+		<script src="../plugin/jquery/jquery.min.js"></script>
+		<script src="../plugin/seedsui/seedsui.min.js"></script>
+		<!--Exmobi能力-->
+		<script src="../plugin/exmobi/exmobi.js"></script>
+		<script>
+			//返回按键触发
+			document.addEventListener("backmonitor", function() {
+				Exmobi.close();
+			}, false);
+			document.addEventListener("plusready", function() {
+
+				$("#login-btn").click(function() {
+					var lgJson = {
+						url : 'http://login.jsp',
+						method : 'post',
+						data : 'username=' + $("#username").val() + "&password=" + $("#password").val(),
+						successFunction : 'lgsuc',
+						failFunction : 'lgfail',
+						isBlock : true
+					}
+					var lgAjax = new Ajax(lgJson);
+					
+					lgAjax.send();
+				});
+			}, false);
+			
+			function lgsuc(data) {
+				var toast = new Toast();
+ 			
+				var rsp = ClientUtil.stringToJson(data.responseText);
+				//alert(rsp.resultcode);
+				if(rsp.resultcode == 200){
+					//alert("登陆成功!");
+					toast.setText("登陆成功");
+					toast.show();
+					Exmobi.openWebview("res:page/www/page/main.html",true,{uixmlId:"main"});
+				}else{
+					//alert("登陆失败");
+					toast.setText("登陆失败");
+					toast.show();
+				}
+				//var uid = $("#uid").val();
+				//if (rsp.result == "success") {
+					////window.open("res:page/index.uixml?username="+uid);
+					//window.open("res:page/uploadfile.uixml?username=" + uid);
+				//} else {
+					//alert(rsp.msg);
+				//}
+			}
+
+			//4xx、5xx错误进入失败回调函数
+			function lgfail(data) {
+				alert("请求失败，请检测网络");
+			}
+
+			//var f=new Form("#loginbox");
+			//定义exmobi返回
+			//function back(){history.go(-1);}
+		</script>
+	</body>
+</html>

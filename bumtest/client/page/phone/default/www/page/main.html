@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="format-detection" content="telephone=no">
+		<title>main7</title>
+
+		<link rel="stylesheet" href="../plugin/seedsui/seedsui.min.css">
+		<link rel="stylesheet" href="../plugin/animate/animate.css">
+		<link rel="stylesheet" href="../css/main7.css"/>
+	</head>
+	<body ontouchstart="">
+		<header>
+			<div class="titlebar">
+				<a id="back-btn" href="#"> <i class="icon icon-arrowleft"></i> </a>
+				<h1>首页</h1>
+			</div>
+		</header>
+		<div id="main" style="width:100%;height:50%;"></div>
+		<script src="../plugin/jquery/jquery.min.js"></script>
+		<script src="../plugin/seedsui/seedsui.min.js"></script>
+		<script src="../plugin/echarts.js"></script>
+		<!--Exmobi能力-->
+		<script src="../plugin/exmobi/exmobi.js"></script>
+
+		<script>
+			function setGridHeight() {
+				var gridContainerHeight = window.innerHeight - 44 - 100 - 60;
+				$("#grid_container").css("min-height", gridContainerHeight);
+			}
+
+			setGridHeight();
+			//返回按键触发
+			document.addEventListener("backmonitor", function() {
+
+				Exmobi.close();
+			}, false);
+			document.addEventListener("plusready", function() {
+				$("#back-btn").click(function() {
+					Exmobi.close();
+				});
+				query();
+
+			}, false);
+			function query() {
+				var ajaxData = {
+					url : 'http://query.jsp',
+					successFunction : 'lgsuc'
+				};
+				var ajax = new Ajax(ajaxData);
+				ajax.send();
+			}
+
+			function lgsuc(data) {
+				var rsp = ClientUtil.stringToJson(data.responseText);
+				var result = rsp.result;
+				var names = new Array();
+				var ages = new Array();
+
+				for (var i = 0; i < result.length; i++) {
+					names.push(result[i]['name']);
+					ages.push(result[i]['age']);
+					console.log(names);
+					console.log(ages);
+				}
+				showchart(names, ages);
+
+			}
+
+			function showchart(names, ages) {
+				var myChart = echarts.init(document.getElementById('main'));
+
+				// 指定图表的配置项和数据
+				//var option = {
+				//title : {
+				//text : 'ECharts 入门示例'
+				//},
+				//tooltip : {},
+				//legend : {
+				//data : ['年齡']
+				//},
+				//xAxis : {
+				//data :names
+				//},
+				//yAxis : {},
+				//series : [{
+				//name : '年齡',
+				//type : 'bar',
+				//data : ages
+				//}]
+				//};
+				option = {
+					xAxis : {
+						type : 'category',
+						data : names
+					},
+					yAxis : {
+						type : 'value'
+					},
+					series : [{
+						data : ages,
+						type : 'line'
+					}]
+				};
+				// 使用刚指定的配置项和数据显示图表。
+				myChart.setOption(option);
+
+			}
+		</script>
+	</body>
+</html>

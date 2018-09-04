@@ -1,0 +1,15 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html isbridge="true">
+	<head>
+		<meta content="charset=utf-8"/>
+		<title>Hello H5</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>
+	<body>
+		<webview url="res:page/www/page/login3.html" backmonitor="true"></webview>
+	</body>
+</html>
