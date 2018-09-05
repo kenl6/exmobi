@@ -83,15 +83,16 @@
 				var toast = new Toast();
  			
 				var rsp = ClientUtil.stringToJson(data.responseText);
-				//alert(rsp.resultcode);
+				alert(rsp.resultcode);
 				if(rsp.resultcode == 200){
-					//alert("登陆成功!");
 					toast.setText("登陆成功");
 					toast.show();
 					Exmobi.openWebview("res:page/www/page/main.html",true,{uixmlId:"main"});
-				}else{
-					//alert("登陆失败");
-					toast.setText("登陆失败");
+				}else if(rsp.resultcode == 500){
+					toast.setText("用户名或密码不能为空");
+					toast.show();
+				}else if(rsp.resultcode == 404){
+					toast.setText("用户名或密码错误！！");
 					toast.show();
 				}
 				//var uid = $("#uid").val();

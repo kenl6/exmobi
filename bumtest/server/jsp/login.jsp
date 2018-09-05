@@ -9,13 +9,12 @@
 	
 	String username = aa.req.getParameter("username");
 	String password = aa.req.getParameter("password");
-	String url = "http://127.0.0.1:8990/zq-ssm2/user/query?name="+username+"&password="+password;
+	String url = "http://127.0.0.1:8990/zq-ssm2/user/checklogin?name="+username+"&password="+password;
 	//out.print("{\"result\":\"lalala\"}");
 	LogUtil.info(username+":"+password);
 %>
 <aa:http id="login" keepreqdata="false" method="get" url="<%=url%>"></aa:http>
 <% 
-	LogUtil.info("eos");
 	out.print(aa.regex.regex(".*","login"));
 
 %>
