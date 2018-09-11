@@ -1,0 +1,15 @@
+<html>
+	<head>
+	<meta content="charset=utf-8"/>
+	<title>Hello World</title>
+	
+	<script>
+	<![CDATA[
+		
+	]]>
+	</script>
+	</head>	
+<body>
+	<font style="font-size: 40;color: red;align: center">你好a，南方电网</font>
+</body>
+</html>

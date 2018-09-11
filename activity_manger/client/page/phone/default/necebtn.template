@@ -1,0 +1,16 @@
+<% for (i = 0; i < acts.length; i ++) { 
+	var rstrcolor = "";
+	if(acts[i].actStatus == "报名中"){
+		rstrcolor = "#46c2ca";
+	}else if(acts[i].actStatus == "报名截止"){
+		rstrcolor = "#15aceb";
+	}else if(acts[i].actStatus == "进行中"){
+		rstrcolor = "#ff6300";
+	}else{
+		rstrcolor = "red";
+	}
+	
+	var actInfoStr = codeActJson(acts[i]);
+%>
+<listitem type="twoline" style="rcolor:<%=rstrcolor %>" cached="true" icon="http://getimg.jsp?img_uuid=<%=acts[i].poster_img_uuid %>" caption="<%=acts[i].activity_title %>" rcaption="<%=acts[i].actStatus %>" sndcaption="<%=acts[i].activity_content %>" href="actInfoClick('<%=actInfoStr%>')"></listitem>
+<% } %>

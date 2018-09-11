@@ -1,0 +1,21 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+	<head>
+		<meta content="charset=utf-8"/>
+		<title>Hello World</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>
+	<body>
+		<form id="" action="" target="">
+			<font class="label-left" style="align: left">ggg</font>
+			
+			<input type="text" style="align: right" value="name" name="username"></input>
+			<input type="submit" value="submit"></input>
+		</form>
+		
+	</body>
+</html>

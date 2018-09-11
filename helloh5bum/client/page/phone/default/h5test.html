@@ -1,0 +1,23 @@
+<!-- HTML5文件 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Insert title here</title>
+		<script type="javascript">
+			//加载完毕后触发plusready事件
+		document.addEventListener("plusready",function(){
+			alert('hhhh');
+		 	//这里可以调用ExMobi提供的jsapi
+		 	var phoneModel = DeviceUtil.getPhoneModel();
+		 	var toast = new Toast();
+ 			toast.setText("您的终端型号是"+phoneModel);
+			toast.show();
+		},false);
+	</head>
+		</script>
+		
+	<body>
+		lslslsl
+	</body>
+</html>

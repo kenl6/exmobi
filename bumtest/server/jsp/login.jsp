@@ -4,18 +4,21 @@
 <%@ include file="/client/adapt.jsp"%>
 <%@ include file="/client/adapt_extend.jsp"%>
 
-<% 
-	LogUtil.info("打印日志信息");
-	
+<%
+	//LogUtil.info("打印日志信息");
+	//	
 	String username = aa.req.getParameter("username");
 	String password = aa.req.getParameter("password");
-	String url = "http://127.0.0.1:8990/zq-ssm2/user/checklogin?name="+username+"&password="+password;
-	//out.print("{\"result\":\"lalala\"}");
-	LogUtil.info(username+":"+password);
+	//String url = "http://127.0.0.1:8990/zq-ssm2/user/checklogin?name="+username+"&password="+password;
+	////out.print("{\"result\":\"lalala\"}");
+	//LogUtil.info(username+":"+password);
 %>
-<aa:http id="login" keepreqdata="false" method="get" url="<%=url%>"></aa:http>
-<% 
-	out.print(aa.regex.regex(".*","login"));
-
+<%--<aa:http id="login" keepreqdata="false" method="get" url="<%=url%>"></aa:http>--%>
+<aa:http id="login">
+<aa:param name="name" value="<%=username%>"/>
+<aa:param name="password" value="<%=password%>"/>
+</aa:http>
+<%
+	out.print(aa.regex.regex(".*", "login"));
 %>
 

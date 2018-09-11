@@ -1,0 +1,15 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+	<head>
+		<meta content="charset=utf-8"/>
+		<title show="false">Hello World</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>
+<body style="background-color: blue">
+		<font style="color: white">这是右页面</font>
+	</body>
+</html>

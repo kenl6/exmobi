@@ -1,0 +1,60 @@
+<html>
+<head>
+	<meta content="charset=utf-8"/>
+	<title>主页</title>
+	<style type="text/css">
+		listitem{
+			iconvalign:top;
+			riconvalign:top;
+		}
+	</style>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+<script type="text/javascript" src="res:script/exmobi_lite/template-native-exmobi.js"></script>
+<script>
+<![CDATA[
+	function init(){
+		var username = window.getParameter("username");
+		$("#welcome").html("你好"+username);
+	}
+	
+	function temjs(str){
+		return str+"from outer js";
+	}
+	template.helper("temjs",temjs); 
+	
+	function dosearch(){
+		var city = $("#city").val();
+		if(city.length < 1){
+			$.showToast("请输入城市名");
+			return;
+		}		
+		$.server({
+			url:'http://querylocate',
+			type:'post',
+			data:'city='+city,
+			dataType:'json',
+			success:function(data){
+				if(data.error == 0){
+					$("#location").renderReplace("res:page/weather.template", data.results[0],function(h,t,o){
+						console.log(h);
+					});
+				}else{
+					$.showToast("接口响应失败");
+				}
+			},
+			error:function(data){
+				$.showToast("请求失败，请检测网络");
+			},
+			isBlock:true
+		});
+	}
+
+]]>
+</script>
+</head>
+<body >
+	<input type="text" value="" id="city" style="width: 70%;" prompt="请输入城市名"></input>
+	<input type="button" value="查询" onclick="dosearch();" style="width: 30%;" ></input>
+	<div id="location"></div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.nj.fiberhome.com.cn/exmobi.dtd">
+<html>
+<head>
+<title show="false"/>
+<link rel="stylesheet" type="text/css" href="res:css/global.css"/>
+<link rel="stylesheet" type="text/css" href="res:css/control.css"/>
+<style type="text/css">
+.label-left{
+	color:#aaaaaa;
+	width:30%;
+	font-size:20;
+}
+.label-right{
+	width:70%;
+}
+toggle{
+	background-color:#eeeeee;background-click-color:#eeeeee;iconwidth:28;border-size:0;border-color:#eeeeee;
+}
+</style>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+<script type="text/javascript">
+<![CDATA[
+function init(){
+	var type = window.getParameter("type");
+	if(type == "info"){
+		$("#title").attr("title","用户信息");
+		$("#validate_form").attr("action","http://modifyuser");
+		var userInfo = ClientUtil.stringToJson(EncryptionUtil.base64Decode(window.getStringSession("userInfoStr")));
+		$("#login_id").attr("value",userInfo.login_id);
+		$("#username").attr("value",userInfo.user_name);
+		$("#login_pwd").attr("value",userInfo.login_pwd);
+		$("#tel_no").attr("value",userInfo.tel_no);
+		$("#identify_id").attr("value",userInfo.identify_id);
+		$("#remark").attr("value",userInfo.remark);
+		$("#uuid").attr("value",userInfo.uuid);
+		if (userInfo.sex == 1)
+		{
+			$("#male").attr("checked","true");
+		}
+	}else{
+		$("#title").attr("title","新增用户");
+		$("#validate_form").attr("action","http://adduser");
+		$("#login_id").attr("readonly","false");
+	}
+}
+
+function dosub(){
+	$("#validate_form")[0].submit(); 
+}	
+
+function formsuc(data){
+	var rsp = ClientUtil.stringToJson(data.responseText);
+	if(rsp.result == "success"){
+		$.showToast(rsp.msg);
+		if(rsp.msg == "修改成功"){
+		var userInfoStr =EncryptionUtil.base64Encode(ClientUtil.jsonToString(rsp.userinfo));
+		window.setStringSession("userInfoStr",userInfoStr);
+		init();
+		}
+	}else{
+		$.showToast(rsp.msg);
+		window.close()
+	}
+}
+
+function formfail(data){
+	$.showToast("请求失败，请检测网络");
+}
+]]>
+</script>
+
+</head>
+	
+<header>
+	<titlebar id="title" title="用户信息" ricon="res:image/titlebar/ok.png" clickricon="res:image/titlebar/ok_click.png" iconhref="script:close" riconhref="dosub();"/>
+</header>
+	<body onload="init();">
+	<form action="http://modifyuser" id="validate_form" method="post" success="formsuc" fail="formfail">
+		<font class="label-left">登录帐号:</font>
+		<input id="login_id" readonly="true" type="text" name="login_id" class="label-right"/>
+		<hr class="odd"/><hr class="even"/>
+		
+		<font class="label-left">密码：</font>
+		<input id="login_pwd" type="password" validate="required" name="loginpwd" prompt="不能为空" validatemsg="密码不能为空" class="label-right"/>		
+		<hr class="odd"/><hr class="even"/>
+		
+		<font class="label-left">姓名：</font>
+		<input id="username" type="text" validate="required" name="username" prompt="不能为空" validatemsg="姓名不能为空" class="label-right"/>		
+		<hr class="odd"/><hr class="even"/>
+		
+		<font class="label-left">性别：</font>
+		<input id="male" type="radio" value="1" name="sex" caption="男"></input>
+		<input id="female" type="radio" value="0" name="sex" checked="true" caption="女"></input>
+		<hr class="odd"/><hr class="even"/>
+
+		
+		<font class="label-left">身份证号码：</font>
+		<input id="identify_id"type="text" validate="required" name="identifyid" prompt="不能为空" validatemsg="职位不能为空" class="label-right"/>		
+		<hr class="odd"/><hr class="even"/>
+		
+		<font class="label-left">电话:</font>
+		<input id="tel_no" type="text" validate="tel" name="tel" prompt="可以为数字，-+" validatemsg="请正确填写电话号码" class="label-right"/>
+		<hr class="odd"/><hr class="even"/>
+		
+		<textarea id="remark" name="remark"/>
+		<!--<input id="remark" type="hidden" validate="required" name="remark" prompt="备注信息" class="label-right"/>-->		
+		<hr class="odd"/><hr class="even"/>
+		
+		<input id="uuid" type="hidden" name="uuid" prompt="uuid" class="label-right" />		
+		<hr class="odd"/><hr class="even"/>
+	</form>
+
+	</body>
+</html>

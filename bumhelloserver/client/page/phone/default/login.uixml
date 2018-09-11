@@ -1,0 +1,47 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+<head>
+<meta content="charset=utf-8"/>
+<title>登录</title>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+
+<script>
+<![CDATA[
+function formsuc(data){
+	var rsp =ClientUtil.stringToJson(data.responseText);
+	var uid = $("#uid").val();
+	if(rsp.result == "success"){
+		//window.open("res:page/index.uixml?username="+uid);
+		window.open("res:page/uploadfile.uixml?username="+uid);
+	}else{
+		alert(rsp.msg);
+	}
+}
+
+//4xx、5xx错误进入失败回调函数
+function formfail(data){
+	alert("请求失败，请检测网络");
+}
+]]>
+</script>
+<style type="text/css">
+	input{
+		width:100%;
+	}
+</style>
+</head>
+<body>
+	<br size="40"/>
+	<form id="lgform" success="formsuc" fail="formfail" action="https://webdomain/logincheck.php" method="post">		
+	<!--<form id="lgform" success="formsuc" fail="formfail" action="http://www.net.com/login.jsp?a=1" method="post">-->		
+		<input type="text" value="" id="uid" validate="required" validatemsg="用户名是必填" name="UNAME" prompt="请输入用户名"></input>	
+		<input type="password" value="" id="pwd" name="PASSWORD" prompt="请输入密码"></input>
+		<input type="hidden" value="1" name="encode_type"></input>
+
+		<br/>		
+		<input type="submit" value="登录"></input>
+	</form>
+	
+
+</body>
+</html>

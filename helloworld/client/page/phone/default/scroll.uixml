@@ -1,0 +1,18 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+	<head>
+		<meta content="charset=utf-8"/>
+		<title>scroll</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>
+	<body>
+		<scroll style="width: 200;height: 100;background-color: red">
+			<font style="color: white">在ExMobi布局里面设置控件长宽的大小用的是dp单位，它是根据屏幕密度来计算最终多少像素点，比如同样设置1dp,那么在不同分辨率和不同屏幕尺寸的手机上，可能占用的像素点不一样。在高分辨率的手机屏幕上，1dp可能占用多个像素点。其计算公式如下</font>
+		</scroll>
+		
+	</body>
+</html>

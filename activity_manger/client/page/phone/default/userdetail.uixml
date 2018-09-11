@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.nj.fiberhome.com.cn/exmobi.dtd">
+<html>
+<head>
+<title show="false"/>
+<link rel="stylesheet" type="text/css" href="res:css/global.css"/>
+<link rel="stylesheet" type="text/css" href="res:css/control.css"/>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+
+<style type="text/css">
+.label-left{
+	color:#333333;
+	width:30%;
+	font-size:20;
+}
+.label-right{
+	width:70%;
+	border-size:0;
+}
+.necessary-border{
+	border-color:red;
+}
+</style>
+<script type="text/javascript">
+<![CDATA[
+var opt = window.getParameter("type");
+
+function formsuc(data){
+	var rspJson = ClientUtil.stringToJson(data.responseText);
+	if(opt == "modify"){//个人信息修改页面，提交成功后更新session中的用户信息
+		var user_info =EncryptionUtil.base64Encode(ClientUtil.jsonToString(rspJson.currentUser));
+		window.setStringSession("user_info",user_info);
+		close();
+	}else{//新增用户页面，提交成功后直接关闭当前页面
+		close();
+	}
+	$.showToast(rspJson.msg);
+}
+function formfail(data){
+	$.showToast("请求失败，请检测网络");
+}
+function dosubform(){
+	$("#subform")[0].submit();
+}
+
+//个人信息回填页面
+function setUserInfo(user_info){
+	for(x in user_info){//循环用户信息并回填至页面
+		if( x != "sex"){
+			$("#"+x).val(user_info[x]);
+		}
+	}
+	if(user_info.sex == "1"){
+		$("#male").attr("checked",true);
+		$("#female").attr("checked",false);
+	}else{
+		$("#male").attr("checked",false);
+		$("#female").attr("checked",true);
+	}
+	$("#login_id").attr("readonly",true);
+}
+
+function init(){
+	if(opt == "modify"){//个人信息页面，从session中取出个人信息，并回填页面
+		$("#title").attr("title","个人信息");
+		var user_info =ClientUtil.stringToJson(EncryptionUtil.base64Decode(window.getStringSession("user_info"))); 
+		setUserInfo(user_info);//回填个人信息函数
+	}else{
+		$("#title").attr("title","新增用户");
+	}
+}
+
+//新增用户时，检测帐号是否
+function ifreat(){
+	$.server({
+		url:'http://checkrepeatloginid',
+		type:'post',
+		dataType:'json',
+		data:'login_id='+$("#login_id").val(),
+		success:function(data){
+			if(data.repeat ==  "1"){
+				$.showToast("该账号已存在！");
+			}
+		},
+		error:function(data){
+			$.showToast("请求失败，请检测网络");
+		}
+	});
+}
+]]>
+</script>
+
+</head>
+	<header>
+		<titlebar title="人员详情" id="title" iconhref="script:close" riconhref="dosubform();" ricon="res:image/titlebar/ok.png" clickricon="res:image/titlebar/ok_click.png"/>
+	</header>
+	<body style="padding: 4 8" onload="init();">
+		<form id="subform" method="post" action="http://submituser" success="formsuc" fail="formfail">
+			<input type="hidden" id="user_uuid" value="" name="user_uuid"></input>
+
+			<font class="label-left" >登陆账号:</font>
+			<input class="label-right" onchange="ifreat();" type="text" id="login_id" name="login_id" validate="required" validatemsg="请输入登陆账号" prompt="必填"/>
+			<hr/>
+			<font class="label-left" >登陆密码:</font>
+			<input class="label-right" type="text" id="login_pwd" name="login_pwd" validate="required" validatemsg="请输入登陆密码" prompt="必填"/>
+			<hr/>
+			
+			<font class="label-left">性别:</font>
+			<input type="radio" value="1" id="male" caption="男" name="sex" checked="true"/>
+			<input type="radio" value="2" id="female" caption="女" name="sex"/>
+			<hr/>
+			
+			<font class="label-left">姓名:</font>
+			<input class="label-right" type="text" id="user_name" name="user_name" validate="required" validatemsg="请输入姓名" prompt="必填"/>
+			<hr/>
+			<font class="label-left">手机号:</font>
+			<input class="label-right" inputlimit="digit" siptype="num"  type="text" id="tel_no" name="tel_no"/>
+			<hr/>
+			<font class="label-left">身份证号:</font>
+			<input class="label-right" inputlimit="digit" siptype="num" maxlength="18" type="text" id="identify_id" name="identify_id"/>
+			<hr/>
+			<textarea rows="3" prompt="备注信息" name="remark" id="remark"></textarea>
+		</form>
+		
+	</body>
+</html>

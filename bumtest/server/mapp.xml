@@ -5,5 +5,9 @@
   <config>
     <htmlformat wellformat="true" />
     <filepreviewconfig wordtohtml="true"/>
+    <domain address="127.0.0.1:8990" name="myssm"/>
   </config>
+  <route baseaddr="http://myssm/">
+  		<forward pattern="zq-ssm2/user/checklogin" path="login.jsp"/>
+  </route>
 </maxml>

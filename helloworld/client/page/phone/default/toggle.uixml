@@ -1,0 +1,26 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+	<head>
+		<meta content="charset=utf-8"/>
+		<title>Hello World</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>
+	<body>
+		<toggle bindid="id1" caption="toggle1" icon="" showtype="" style="" ></toggle>
+		<div id="id1">
+			<p>6666</p>
+		</div>
+		<toggle bindid="id2" caption="toggle2" icon="" showtype="" style="" ></toggle>
+		<div id="id2">
+			<p>6666</p>
+		</div>
+		<toggle bindid="id3" caption="toggle3" icon="" showtype="" style="" ></toggle>
+		<div id="id3">
+			<p>6666</p>
+		</div>
+			</body>
+</html>

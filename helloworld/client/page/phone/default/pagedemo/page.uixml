@@ -1,0 +1,32 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+<head>
+	<meta content="charset=utf-8"/>
+	<title>page</title>
+	<script>
+	<![CDATA[
+		
+	]]>
+	</script>
+</head>
+<header>
+	<tabbar tabtype="rect" col="3" showtype="text">
+		<tab  text="page1" bindpage="page1" selected="false" isshowtip="true" tiptext="12"></tab>
+		<tab  text="page2" bindpage="page2" selected="true"  isshowtip="true" tiptext="3"></tab>
+		<tab  text="page3" bindpage="page3" selected="false"></tab>
+	</tabbar>
+	
+</header>
+
+<body>
+	<page id="page1" onstart="alert('page1')" show="false" url="res:page/pagedemo/page1.uixml">
+		
+	</page>
+	<page id="page2" onstart="alert('page2')"  show="true" url="res:page/pagedemo/page2.uixml">
+		
+	</page>
+	<page id="page3" onstart="alert('page3')" show="false" url="res:page/pagedemo/page3.uixml">
+		
+	</page>
+</body>
+</html>

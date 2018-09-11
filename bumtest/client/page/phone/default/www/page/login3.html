@@ -66,9 +66,9 @@
 
 				$("#login-btn").click(function() {
 					var lgJson = {
-						url : 'http://login.jsp',
-						method : 'post',
-						data : 'username=' + $("#username").val() + "&password=" + $("#password").val(),
+						url : 'http://myssm/zq-ssm2/user/checklogin',
+						method : 'get',
+						data : 'name=' + $("#username").val() + "&password=" + $("#password").val(),
 						successFunction : 'lgsuc',
 						failFunction : 'lgfail',
 						isBlock : true
@@ -87,7 +87,7 @@
 				if(rsp.resultcode == 200){
 					toast.setText("登陆成功");
 					toast.show();
-					Exmobi.openWebview("res:page/www/page/main.html",true,{uixmlId:"main"});
+					Exmobi.openWebview("res:page/www/page/upload.html",true,{uixmlId:"main"});
 				}else if(rsp.resultcode == 500){
 					toast.setText("用户名或密码不能为空");
 					toast.show();

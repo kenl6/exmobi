@@ -1,0 +1,42 @@
+<html>
+<head>
+	<meta content="charset=utf-8"/>
+	<title show="false">布局</title>
+	<script>
+	<![CDATA[
+		function goback(){
+			//window.alert("先弹出对话框");
+			window.close();
+		}
+	]]>
+	</script>
+</head>
+<header style="height: 40;background-color: gray;" >
+	<a href="goback()" keybind="back" style="color: blue;align: left">返回</a>
+	
+</header>
+<body style="padding: 0">
+	<!--<font>123</font><font>345</font>-->
+	<div style="background-color: blue;width: 50%;text-align: center;padding: 0 5 0 0;align: center;height: 30;border-size: 1apx;border-radius: 5">
+		<font style="color: white">this is div</font>
+	</div>
+	<!--<div style="background-color: red;width: 50%">
+		<font style="color: white">this is div</font>
+	</div>-->
+	<br/>
+	<ediv style="background-color: green;" >
+		<font style="color: white">this is ediv,this is ediv</font>
+	</ediv>
+	<hr color="red" gradually="true" size="10"/>
+	
+	 <include src="res:page/includedemo.uixml"/>
+
+	<br/>
+	<div style="width: 50;height: 50;border-radius: 25;background-color: red;text-align: center;text-valign: middle">
+		<font style="color: white">圆</font>
+	</div>
+
+
+
+</body>
+</html>

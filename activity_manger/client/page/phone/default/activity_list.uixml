@@ -1,0 +1,77 @@
+<html id="actlist">
+<head>
+<meta content="charset=utf-8"/>
+<title show="false">活动列表</title>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+<script type="text/javascript" src="res:script/exmobi_lite/template-native-exmobi.js"></script>
+<script>
+<![CDATA[
+function codeActJson(actJson){
+	return EncryptionUtil.base64Encode(ClientUtil.jsonToString(actJson));
+}
+
+function actInfoClick(actInfoStr){
+	window.setStringSession("actInfo",actInfoStr);
+	window.open("res:page/act_detail.uixml");
+}
+
+template.helper("codeActJson",codeActJson);
+template.helper("actInfoClick",actInfoClick);
+
+function getActList(){
+	$.server({
+		url:'http://activity_list.jsp',
+		type:'post',
+		dataType:'json',
+		data:'actTitle='+$("#actTitle").val+"&actStatus="+$("#actStatus").val(),
+		success:function(data){
+			if(data.acts.length >0){
+				$.renderReplace('#actarea', 'res:page/act_list.template', data, function(h, t, o){});
+			}else{
+				$.showToast("未查询到活动");
+			}
+		},
+		error:function(data){
+			$.showToast("请求失败，请检测网络");
+		},
+		isBlock:true
+	});
+}	
+]]>
+</script>
+<style type="text/css">
+	hr{
+		border-size:1apx;
+		border-color:#D0CDC8;
+	}
+	select{
+		border-size:0;
+		background-color:#F1F0EF;
+	}
+	.titlebar{
+		rcolor:white;
+	}
+	listitem{
+		iconwidth:60;
+		iconheight:45;
+	}
+</style>
+
+</head>
+<header style="background-color: #F1F0EF">
+	<titlebar title="活动列表" class="titlebar" id="title" iconhref="script:close" rcaption="查询" riconhref="getActList();"/>
+	<input type="text" style="border-size:0;width:100%;background-color: #F1F0EF;prompt-color: black" id="actTitile" prompt="活动标题"></input>
+	<hr/>
+	<select id="actStatus">
+		<option>请选择活动状态</option>
+		<option value="1">报名中</option>
+		<option value="2">报名截止</option>
+		<option value="3">进行中</option>
+		<option value="4">已结束</option>
+	</select>
+	
+</header>
+<body style="padding: 4 0" id="actarea" onload="getActList();">
+
+</body>
+</html>

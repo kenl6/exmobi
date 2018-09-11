@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.nj.fiberhome.com.cn/exmobi.dtd">
+<html id="editCalendar">
+<head>
+	<title show="false" />
+	<link rel="stylesheet" type="text/css" href="res:css/global.css" />
+	<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+	<style>
+		.label_left2{padding:5 0;}
+	</style>
+	<script>
+		<![CDATA[
+			function showPhotoUpload(puId){
+			var puObj = $("#"+puId)[0];
+			puObj.openCameraUpload(true);
+		}
+			function postercall(){//海报选择完图片回调函数
+			var poster = $("#posters_img")[0];
+			var paths = poster.getFilePaths();
+			if(paths.length > 0) {
+				var submitData = new Array();
+				submitData.push({type:1,name:"posters_img",value:paths.toString()});
+		//请求服务端接收海报图片接口
+				var posterForm = new FormSubmit({
+					url:'http://uploadposterimg.jsp',
+					method:'post',
+					data:submitData,
+					successFunction:'posterOkfunc',
+					failFunction:'failfunc',
+					isBlock:true
+					});
+					
+					posterForm.send();
+				}
+				$("#posters_add").hide();
+				$("#posters_imgdiv").show();
+}
+
+				function posterOkfunc(data){
+					var rsp = ClientUtil.stringToJson(data.responseText);
+					if(rsp.result == "success"){
+						$("#posters_img_uuid").val(rsp.img_uuid);
+					}else{
+						$.showToast(rsp.msg);
+					}
+				};
+
+			function posterdelete(){
+				var poster = $("#posters_img")[0];
+				$("#posters_img_path").val("");
+				$("#posters_add").show();
+				$("#posters_imgdiv").hide();
+			}
+			
+
+		]]>
+	</script>
+</head>
+<header>
+	<titlebar title="发布活动" iconhref="script:close" id="titlebar" hidericon="false" rcaption="发布" clickricon="theme:image/titlebar/ok_click.png" riconhref="savesubmit()" />
+</header>
+<body style="padding: 4 0;background-color: #F1F0EF">
+    
+	<div class="cdiv" id="posters_add" style="height: 120;text-valign: middle;text-align: center">
+		<div id="addposters" href="showPhotoUpload('posters_img')" style="text-align: center">
+			<img src="res:image/add-large.png" style="width: 40;margin: 0 0 5 0;"></img>
+			<br/>
+			<font class="commoncolor" style="margin: 5 0 0 0">添加活动海报</font>
+		</div>
+	</div>
+		<div class="cdiv" id="posters_imgdiv" style="height: 120;text-valign: middle;text-align: center;display: none">
+		<photoupload id="posters_img" style="width: 100%;height: 100;" nums="1" ondelete="posterdelete()" onback="postercall()"></photoupload>
+		<input type="hidden" id="posters_img_uuid" ></input>
+	</div>
+    
+</body>
+</html>

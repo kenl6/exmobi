@@ -1,0 +1,203 @@
+<html>
+<head>
+<meta content="charset=utf-8"/>
+<title show="false">活动详情</title>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+<script>
+<![CDATA[
+var actInfo;
+	function init(){
+		actInfo = ClientUtil.stringToJson(EncryptionUtil.base64Decode(window.getStringSession("actInfo")));
+		$("#act_uuid").val(actInfo.activity_uuid);
+		$("#actStatus").val(actInfo.actStatus);
+		window.beignPreferenceChange();/*开始批量刷新*/
+
+		$("#poster").attr("src","http://getimg.jsp?img_uuid="+actInfo.poster_img_uuid);
+		$("#poster").attr("href","http://getimg.jsp?img_uuid="+actInfo.poster_img_uuid);
+		$("#activity_title").html(actInfo.activity_title);
+		$("#activity_content").html(actInfo.activity_content);
+		if(actInfo.activity_imgs != ""){
+			var scrollObj = document.getElementById("scroll");
+			var imgIdArray = actInfo.activity_imgs.split(",");
+			var scrollData = new Array();
+			for(i=0;i<imgIdArray.length;i++){
+				var scrollJson = {};
+				scrollJson.src = "http://getimg.jsp?img_uuid="+imgIdArray[i];
+				scrollJson.href = "openfile:http://getimg.jsp?img_uuid="+imgIdArray[i];
+				scrollData.push(scrollJson);
+			}
+			scrollObj.loadData(scrollData);
+			$("#imgDiv").show();
+		}
+		$("#begin_time").html(actInfo.begin_time);
+		$("#end_time").html(actInfo.end_time);
+		$("#address").html(actInfo.address);
+		$("#deadline_time").html(actInfo.deadline_time);
+		$("#contact_tel").html(actInfo.contact_tel);
+		$("#contact_tel").attr("href","tel:"+actInfo.contact_tel);
+		var pl = actInfo.person_limit == "0"?"不限制":actInfo.person_limit;
+		$("#plimit").val(actInfo.person_limit);
+		$("#person_limit").html(pl);
+		$("#join_count").html(actInfo.join_count);
+		if(actInfo.necessary != ""){
+			var neceArray = actInfo.necessary.split(",");
+			var neceDict = {tel_no:"手机号",identify_id:"身份证","sex":"性别","remark":"备注"};
+			var innerBtn = '';
+			for(i=0;i<neceArray.length;i++){
+				var btnValue = "";
+				for(var x in neceDict){
+					if(x == neceArray[i]){
+						btnValue = neceDict[x];
+						break;
+					}
+				}
+				innerBtn += '<input type="button" value="button" value="'+btnValue+'" class="necessary-btn"></input>';
+			}
+			$("#needArea").html(innerBtn);
+		}
+		window.endPreferenceChange();/*结束批量刷新*/
+	}
+	
+	function doSignup(){
+		var user_info =ClientUtil.stringToJson(EncryptionUtil.base64Decode(window.getStringSession("user_info"))); 
+		if($("#actStatus").val() != "报名中"){
+			$.showToast("活动"+$("#actStatus").val()+"，不能报名");
+			return;
+		}
+		if($("#plimit").val() != "0"){
+			var limitCount = Number($("#plimit").val());
+			var joinCount = Number($("#join_count").html());
+			if(joinCount >= limitCount){
+				$.showToast("报名人数已满，不能报名");
+				return;
+			}
+		}
+		if(actInfo.necessary != ""){
+			var neceArray = actInfo.necessary.split(",");
+			for(i=0;i<neceArray.length;i++){
+				for(var x in user_info){
+					if(x == neceArray[i] && user_info[x] == ""){
+						$.confirm("您有用户报名必填项未填写，是否跳转至个人信息页面修改？",function(){window.open("res:page/userdetail.uixml?type=modify");},function(){return;});
+						return;
+					}
+				}
+			}
+		}
+		$.server({
+			url:'http://signup_act.jsp',
+			type:'post',
+			data:'act_uuid='+$("#act_uuid").val()+"&user_uuid="+user_info.user_uuid,
+			dataType:'json',
+			success:function(data){
+				$.showToast(data.msg);
+				if(data.result == "success"){
+					var listWin = PageUtil.getWindowById("actlist");
+					listWin.callFunction("getActList");
+					close();
+				}
+			},
+			error:function(data){
+				$.showToast("请求失败，请检测网络");
+			},
+			isBlock:true
+		});
+	}
+]]>
+</script>
+<style type="text/css">
+	.cdiv{
+		background-color:white;
+		border-top-size:1apx;
+		border-bottom-size:1apx;
+		border-color:#D5D2CD;
+		margin:5 0;
+	}
+	.tipdiv{
+		padding: 10 2;
+		border-bottom-size:1apx;
+		border-color:#D5D2CD;
+	}
+	.blockicon{
+		width:20;
+	}
+	.textfont{
+		margin:10;
+	}
+	.lfont{
+		color:#323333;
+		width:30%;
+		margin:10 0 10 10;
+	}
+	.rlabel{
+		width:70%;
+		margin:10 0;
+	}
+	.necessary-btn{
+		border-radius:10;
+		width:20%;
+	}
+</style>
+
+</head>
+<header>
+	<titlebar title="活动详情" style="rcolor: white" id="title" iconhref="script:close" riconhref="doSignup();" rcaption="报名"/>
+</header>
+<body style="padding: 4 0;background-color: #F1F0EF" onload="init();">
+	<input type="hidden" value="" id="act_uuid"></input>
+	<input type="hidden" value="" id="actStatus"></input>
+	<input type="hidden" value="" id="plimit"></input>
+
+	<div  class="cdiv" style="padding: 4;height:100">
+		<img id="poster" style="width: 100%;" src="" href="" urltype="openfile" cached="true"></img>
+	</div>
+	<div class="cdiv">
+		<div class="tipdiv">
+			<img class="blockicon" src="res:image/block.png" ></img>
+			<efont class="tipcolor">活动标题<subfont style="color: red">  *</subfont></efont>
+		</div>
+		<font class="textfont" id="activity_title"></font>
+	</div>
+	<div class="cdiv">
+		<div class="tipdiv">
+			<img class="blockicon" src="res:image/block.png" ></img>
+			<efont class="tipcolor">活动详情<subfont style="color: red">  *</subfont></efont>
+		</div>
+		<font class="textfont" id="activity_content"></font>
+		<br/>
+		<div id="imgDiv" style="display: none;text-align: center">
+			<scrollpicture id="scroll" style="width:80%;height:145" interval="true"/>
+		</div>
+	</div>
+	
+	<div class="cdiv">
+		<font class="lfont">开始时间</font>
+		<font id="begin_time" class="rlabel"></font>
+		<hr/>
+		<font class="lfont">结束时间</font>
+		<font id="end_time" class="rlabel"></font>
+		<hr/> 
+		<font class="lfont">活动地址</font>
+		<font id="address" class="rlabel"></font>
+		<hr/>
+	</div>
+	
+	<div class="cdiv">
+		<font class="lfont">报名截止</font>
+		<font id="deadline_time" class="rlabel"></font>
+		<hr/>
+		<font class="lfont">活动咨询</font>
+		<a id="contact_tel" class="rlabel"></a>
+		<hr/> 
+		<font class="lfont">人数限制</font>
+		<font id="person_limit" class="rlabel"></font>
+		<hr/>
+		<font class="lfont">已报名人数</font>
+		<font id="join_count" class="rlabel"></font>
+		<hr/>
+		<efont class="lfont" style="width: 100%;margin: 15 0 0 10;">用户报名必填项</efont>
+		<br/>
+		<div style="padding: 10 0 10 10;" id="needArea">
+		</div>
+	</div>
+</body>
+</html>

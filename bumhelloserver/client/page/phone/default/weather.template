@@ -1,0 +1,5 @@
+<% for (i = 0; i < weather_data.length; i ++) { %>
+<listitem type="twoline" cached="true" icon="<%=weather_data[i].dayPictureUrl %>" 
+		caption="<%=temjs(weather_data[i].date) %>" rcaption="<%=weather_data[i].weather %>" sndcaption="<%=weather_data[i].wind %>|<%=weather_data[i].temperature %>" 
+		ricon="<%=weather_data[i].nightPictureUrl %>"></listitem>
+<% } %>

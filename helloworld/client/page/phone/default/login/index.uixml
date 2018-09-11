@@ -1,0 +1,48 @@
+<html >
+	<head>
+		<meta content="charset=utf-8"/>
+		<title show="false">Hello World</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>	
+	<header style="height: 100;background-color: gray;" >
+		<a href="script:close" style="color: blue;align: left">返回</a>
+		
+	</header>
+	
+	<body>
+		<font style="font-size: 40;color: red;align: center">你好，南方电网</font>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml" target="_blank"></listitem>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml" target="_self"></listitem>
+		<listitem type="oneline" caption="htmlgroup" href="res:page/htmlgroup/htmlgroup.uixml"></listitem>
+		<listitem type="oneline" caption="page" href="res:page/pagedemo/page.uixml"></listitem>
+		<listitem type="oneline" caption="scroll" href="res:page/scroll.uixml"></listitem>
+		<listitem type="oneline" caption="scrollpicture" href="res:page/scrollpicture.uixml"></listitem>
+		<listitem type="oneline" caption="toggle" href="res:page/toggle.uixml"></listitem>
+		<listitem type="oneline" caption="form" href="res:page/form.uixml"></listitem>
+		<listitem type="oneline" caption="test01" href="res:page/test01.uixml"></listitem>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml"></listitem>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml"></listitem>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml"></listitem>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml"></listitem>
+		<listitem type="oneline" caption="uuuuuuuuu" href="res:page/layout.uixml"></listitem>
+	</body>
+	<footer style="background-color: green">
+		<font style="font-size: 40;color: white;align: center">这是底部</font>
+	</footer>
+	<leftcontainer style="width: 50;background-color: blue" >
+		<font style="font-size: 40;color: white;align: center">这是左容器</font>
+	</leftcontainer>
+	<rightcontainer style="width: 50;background-color: yellow" >
+		<font style="font-size: 40;color: white;align: center">这是左容器</font>
+	</rightcontainer>
+	<fixset>
+		<fix style="right: 30;bottom: 30;">
+			<input type="button" value="button" style="background-color: red;color: white" onclick="alert('button')"></input>
+		</fix>
+	</fixset>
+	
+</html>

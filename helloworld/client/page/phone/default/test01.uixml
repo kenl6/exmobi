@@ -1,0 +1,47 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+		<head>
+		<meta content="charset=utf-8"/>
+		<title show="false">Hello World</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>	
+	<header style="" class="" id="">
+		<titlebar style="background-color: blue;title-color: white" caption="" title="聚合API" rcaption="" iconhref="" riconhref=""></titlebar>
+	</header>
+	<body>
+
+		<div style="background-image:url(res:image/slice/bg-c.png)" class="" id="" href="">
+			<div style="background-image:url(res:image/slice/bg.png);width: 50%;height: 30%;text-align:center;text-valign:middle" class="" id="1" href="">
+				<img id="car" src="res:image/slice/live.png" href=""></img>
+				<font style="">生活常用</font>
+
+			</div>
+			<div style="background-image:url(res:image/slice/bg.png);width: 50%;height: 30%;text-align:center;text-valign:middle" class="" id="2" href="">
+				<img id="car" src="res:image/slice/car.png" href=""></img>
+
+				<font style="">车辆服务</font>
+			</div>
+			<div style="background-image:url(res:image/slice/bg.png);width: 50%;height: 30%;text-align:center;text-valign:middle" class="" id="3" href="">
+				<img id="car" src="res:image/slice/loc.png" href=""></img>
+				<font style="">位置信息</font>
+			</div>
+			<div style="background-image:url(res:image/slice/bg.png);width: 50%;height: 30%;text-align:center;text-valign:middle" class="" id="4" href="">
+				<img id="car" src="res:image/slice/money.png" href=""></img>
+				<font style="">金融基金</font>
+			</div>
+			<div style="background-image:url(res:image/slice/bg.png);width: 50%;height: 30%;text-align:center;text-valign:middle" class="" id="5" href="">
+				<img id="car" src="res:image/slice/theatre.png" href=""></img>
+				<font style="">影视娱乐</font>
+			</div>
+			<div style="background-image:url(res:image/slice/bg.png);width: 50%;height: 30%;text-align:center;text-valign:middle" class="" id="6" href="">
+				<img id="car" src="res:image/slice/travl.png" href=""></img>
+				<font style="">旅游出行</font>
+			</div>
+		</div>
+
+	</body>
+</html>

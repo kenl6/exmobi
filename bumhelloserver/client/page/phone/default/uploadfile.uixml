@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta content="charset=utf-8"/>
+<title>新建日志</title>
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+<script>
+<![CDATA[
+function init(){
+	$.server({
+		url:'http://newdiary.jsp',
+		type:'get',
+		dataType:'json',
+		success:function(data){
+			var innerstr= '';
+			for(i=0;i<data.hidParams.length;i++){
+				innerstr += '<input type="hidden" name="'+data.hidParams[i].name+'" value="'+data.hidParams[i].value+'"/>';
+			}
+			$("#hidparam").html(innerstr);
+		},
+		error:function(data){
+			$.showToast("请求失败，请联系管理员");
+		}
+	});
+}	
+
+function formsuc(data){
+	var rsp = ClientUtil.stringToJson(data.responseText);//eval
+	if(rsp.result == "success"){
+		$.showToast("提交成功");
+	}else{
+		$.showToast("提交失败");
+	}
+}
+
+function formfail(data){
+	$.showToast("请求失败，请联系管理员");
+}
+]]>
+</script>
+<style type="text/css">
+	.lfont{
+		width:30%;
+	}
+	.rlabel{
+		width:70%;
+	}
+</style>
+
+</head>
+<body onload="init();">
+	<form id="diaryform" success="formsuc" fail="formfail" action="http://submitdiray" method="post" enctype="multipart/form-data">
+		<font class="lfont">标题</font>
+		<input class="rlabel" type="text" value="" name="subject"></input>
+		<br/>
+		<textarea rows="3" style="width: 100%;" name="TD_HTML_EDITOR_CONTENT" prompt="请填写日志内容"></textarea>
+		<hr/>
+		<font class="lfont">日期</font>
+		<object type="date" class="rlabel" name="dia_date"  value="8812"></object>
+		<hr/>
+		<font class="lfont">类型</font>
+		<select class="rlabel" name="dia_type">
+			<option value="1">工作日志</option>
+			<option value="2">个人日志</option>
+		</select>
+		<hr/>
+		<font class="lfont">附件</font>
+		<input type="file" class="rlabel" name="ATTACHMENT_0"></input>
+		<hr/>
+		<input type="submit" value="提交" style="width: 100%"></input>
+		
+		<input type="hidden" name="SMS_REMIND" value="on"/>
+		<input type="hidden" name="SNS_REMIND" value="on"/>
+		<input type="file" name="ATTACHMENT_1000" style="display: none"/>
+		<input type="file" name="ATTACHMENT_1" style="display: none"/>
+		<input type="hidden" name="ATTACH_DIR" value=""/>
+		<input type="hidden" name="ATTACH_NAME" value=""/>
+		<input type="hidden" name="DISK_ID" value=""/>
+		<div id="hidparam"></div>
+	</form>
+	
+</body>
+
+
+</html>

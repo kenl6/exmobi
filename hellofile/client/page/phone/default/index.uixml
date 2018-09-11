@@ -1,0 +1,23 @@
+<html>
+<head>
+<meta content="charset=utf-8"/>
+<title>hellofile</title>
+<script>
+<![CDATA[
+function dofile(filename,fileurl){
+	
+}
+]]>
+</script>
+</head>
+<body>
+	<!--<fileset id="fileset" caption="附件预览">
+		<item text="广州市2018年考试录用公务员报考指南.doc" href="http://www.hrssgz.gov.cn/rczp/gwyzk/gwyzkgg/201802/P020180206560371711913.doc" options="111" ></item>
+		<item text="广州市2018年考试录用公务员职位表.xls" href="http://www.hrssgz.gov.cn/rczp/gwyzk/gwyzkgg/201802/P020180206560371406013.xls" options="111" ></item>
+	</fileset>-->
+	<!--<a urltype="openfile" href="http://www.hrssgz.gov.cn/rczp/gwyzk/gwyzkgg/201802/P020180206560371406013.xls">广州市2018年考试录用公务员职位表.xls</a>-->
+	<listitem type="oneline" urltype="download"  caption="广州市2018年考试录用公务员报考指南.doc"  href="http://www.hrssgz.gov.cn/rczp/gwyzk/gwyzkgg/201802/P020180206560371711913.doc?filename=广州市2018年考试录用公务员报考指南.doc"></listitem>
+	<listitem type="oneline" urltype="openfile"  caption="广州市2018年考试录用公务员职位表.xls"  href="http://www.hrssgz.gov.cn/rczp/gwyzk/gwyzkgg/201802/P020180206560371406013.xls?filename=广州市2018年考试录用公务员职位表.xls"></listitem>
+
+</body>
+</html>

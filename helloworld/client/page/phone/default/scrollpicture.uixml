@@ -1,0 +1,115 @@
+<html>
+
+<head>
+
+<title show="false"></title>
+
+<style type="text/css">
+
+    .scrollp{
+
+         mark-current-color:red;
+
+    }
+
+    </style>
+
+    <script>
+
+<![CDATA[
+
+//图文轮播控件左右滑动切换触发函数 
+
+function loadData (){
+
+    var scrollObj = document.getElementById("scroll");
+
+    //设置data数据，实际应用通过ajax从第三方服务器获取
+
+    var dataArray = new Array();
+
+    var data1 = {};
+
+    data1.src = "res:image/new1.jpg";
+
+    data1.description = "国产大飞机C919下线  将在上海举行仪式";
+
+    data1.href = "test('"+data1.description+"')";//" http://miap.cc/new1.jsp"
+
+    var data2 = {};
+
+    data2.src = "res:image/new2.jpg";
+
+    data2.description = "长春近百名执法人员带钢盔拿盾牌拆除违建";
+
+    data2.href = "http://miap.cc/new2.jsp"
+
+    var data3 = {};
+
+    data3.src = "res:image/new3.jpg";
+
+    data3.description = "天了噜，我想静静  54平米做两房你见过没！";
+
+    data2.href = "http://miap.cc/new3.jsp"
+
+    dataArray.push(data1);
+
+    dataArray.push(data2);
+
+    dataArray.push(data3);
+
+    //添加数据
+
+    scrollObj.loadData(dataArray);
+
+}
+
+function test(param){
+
+    alert(param)
+
+}
+
+function setIndex(index){
+
+    var scrollObj = document.getElementById("scroll");
+
+scrollObj.className="scrollp";
+
+    scrollObj.setCurrentIndex(index);
+
+}
+
+]]>
+
+</script>
+
+</head>
+
+<header>
+
+    <titlebar hidericon="true" iconhref="script:close" title="图片轮播控件"></titlebar>
+
+</header>
+
+<body onload="loadData()">
+
+      <scrollpicture id="scroll" style="width:100%;height:30%" interval="true">
+
+</scrollpicture>
+
+<br size="10"/>
+
+<div style="width: 70%;align: center">
+
+    <input type="button" value="第一张" onclick="setIndex(0)" style="align: left"/>
+
+    <input type="button" value="第二张" onclick="setIndex(1)" style="align: center"/>
+
+    <input type="button" value="第三张" onclick="setIndex(2)" style="align: right"/>
+
+</div>
+
+</body> 
+
+</html>

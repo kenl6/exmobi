@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<maxml version="2.0" xmlns="http://www.nj.fiberhome.com.cn/map"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.nj.fiberhome.com.cn/map maxml-2.0.xsd">
+  <config>
+    <htmlformat wellformat="true" />
+    <filepreviewconfig wordtohtml="true"/>
+    <session type="stateless"/>
+    <database id="activity_mysql" user="root" password="root" dbname="activity" dbtype="mysql" ip="127.0.0.1" port="3306"/>
+  </config>
+  <services>
+  	<http-service>
+  		<forward pattern="/queryact" path="activity_list.jsp"></forward>
+  		<forward pattern="/getimg" path="getimg.jsp"></forward>
+  	</http-service>
+  </services>
+</maxml>

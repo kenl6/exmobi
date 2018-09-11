@@ -1,0 +1,286 @@
+<html>
+<head>
+<meta content="charset=utf-8"/>
+<title show="false">发布活动</title>
+<style type="text/css">
+	.titlebar{
+		rcolor:white;
+	}
+	.cdiv{
+		background-color:white;
+		border-top-size:1apx;
+		border-bottom-size:1apx;
+		border-color:#D5D2CD;
+		margin:5 0;
+	}
+	.commoncolor{
+		color:#D0CDC8;
+	}
+	.tipcolor{
+		color:#46c2ca;
+	}
+	.blockicon{
+		width:20;
+	}
+	.tipdiv{
+		padding: 10 2;
+		border-bottom-size:1apx;
+		border-color:#D5D2CD;
+	}
+	.input{
+		prompt-color:#D0CDC8;
+		border-size:0;
+	}
+	hr{
+		border-size:1apx;
+		border-color:#D0CDC8;
+	}
+	.lfont{
+		color:#323333;
+		width:30%;
+		margin:0 0 0 10;
+	}
+	object{
+		border-size:0;
+		background-color:white;
+	}
+	.rlabel{
+		width:70%;
+		border-size:0;
+		background-color:white;
+	}
+</style>
+
+<script type="text/javascript" src="res:script/exmobi_lite/core.js"></script>
+<script>
+<![CDATA[
+function showPhotoUpload(puId){
+	var puObj = $("#"+puId)[0];
+	puObj.openCameraUpload(true);
+}
+function postercall(){//海报选择完图片回调函数
+	var poster = $("#posters_img")[0];
+	var paths = poster.getFilePaths();
+	if(paths.length > 0) {
+		$("#posters_add").hide();
+		$("#posters_imgdiv").show();
+		var submitData = new Array();
+		submitData.push({type:1,name:"posters_img",value:paths.toString()});
+		//请求服务端接收海报图片接口
+		var posterForm = new FormSubmit({
+			url:'http://uploadposterimg.jsp',
+			method:'post',
+			data:submitData,
+			successFunction:'posterOkfunc',
+			failFunction:'failfunc',
+			isBlock:true
+		});
+		posterForm.send();
+	}else{
+		$("#posters_add").show();
+		$("#posters_imgdiv").hide();
+	}
+}
+
+function posterOkfunc(data){
+	var rsp = ClientUtil.stringToJson(data.responseText);
+	if(rsp.result == "success"){
+		$("#posters_img_uuid").val(rsp.img_uuid);
+	}else{
+		$.showToast(rsp.msg);
+	}
+};
+
+function posterdelete(){
+	var poster = $("#posters_img")[0];
+	$("#posters_img_path").val("");
+	$("#posters_add").show();
+	$("#posters_imgdiv").hide();
+}
+
+//请求服务端上传活动图片接口
+function activityUpload(paths){
+	var submitData = new Array();
+	for(i=0;i<paths.length;i++){
+		var actImgJson = {type:1,name:"activity_img",value:paths[i]};
+		submitData.push(actImgJson);
+	}
+	var actForm = new FormSubmit({
+		url:'http://uploadactimgs.jsp',
+		method:'post',
+		data:submitData,
+		successFunction:'actOkfunc',
+		failFunction:'failfunc',
+		isBlock:true
+	});
+	actForm.send();
+}
+function actOkfunc(data){
+	var rsp = ClientUtil.stringToJson(data.responseText);
+	if(rsp.result == "success"){
+		$("#activity_imgs").val(rsp.img_uuid.toString());
+	}else{
+		$.showToast(rsp.msg);
+	}
+};
+
+function activitycall(){
+	var actphoto = $("#activity_photo")[0];
+	var paths = actphoto.getFilePaths();
+	if(paths.length > 0) {
+		activityUpload(paths);
+		$("#camera_add").hide();
+		$("#camera_activity").show();
+	}else{
+		$("#camera_add").show();
+		$("#camera_activity").hide();
+		$("#activity_imgs").val("");
+	}
+}
+
+function dosubmit(){
+	if($("#posters_img_path").val() == ""){
+		$.showToast("请添加活动海报");
+		return;
+	}
+	if($("#activity_title").val() == ""){
+		$.showToast("请填写活动标题");
+		return;
+	}
+	if($("#activity_title").val() != "" && $("#activity_title").val().length > 15){
+		$.showToast("活动标题不能超过15字");
+		return;
+	}
+	if($("#activity_content").val() == ""){
+		$.showToast("请填写活动详情");
+		return;
+	}
+	if($("#startdate").val() == "" || $("#starttime").val() == ""){
+		$.showToast("请填写活动开始时间");
+		return;
+	}
+	if($("#enddate").val() == "" || $("#endtime").val() == ""){
+		$.showToast("请填写活动结束时间");
+		return;
+	}
+	if($("#deadlinedate").val() == "" || $("#deadlinedate").val() == ""){
+		$.showToast("请填写报名截止时间");
+		return;
+	}
+	if($("#contact_tel").val() == ""){
+		$.showToast("请填写活动咨询");
+		return;
+	}
+	var subdata="poster_img_uuid="+$("#posters_img_uuid").val()+"&activity_title="+$("#activity_title").val();
+	subdata+="&activity_content="+$("#activity_content").val()+"&activity_imgs="+$("#activity_imgs").val();
+	subdata+="&begin_time="+$("#startdate").val()+" "+$("#starttime").val()+"&end_time="+$("#enddate").val()+" "+$("#endtime").val();
+	subdata+="&address="+$("#address").val()+"&deadline_time="+$("#deadlinedate").val()+" "+$("#deadlinetime").val();
+	subdata+="&contact_tel="+$("#contact_tel").val()+"&person_limit="+$("#person_limit").val();
+	var necarray = $("[name='necessary']");
+	var nevalArr = new Array();
+	for(i=0;i<necarray.length;i++){
+		if(necarray[i].checked){
+			nevalArr.push(necarray[i].value);
+		}
+	}
+	subdata += "&necessary="+nevalArr.toString();
+	$.server({
+		url:'http://submitactivity.jsp',
+		method:'post',
+		data:subdata,
+		type:'post',
+		dataType:'json',
+		success:function(data){
+			if(data.result == "success"){
+				$.showToast(data.msg);
+				close();
+			}else{
+				$.showToast(data.msg);
+			}
+		},
+		error:function(data){
+			$.showToast("请求失败，请检测网络");
+		}
+	});
+}
+function failfunc(data){
+	$.showToast("请求失败，请检测网络");
+}
+]]>
+</script>
+</head>
+<header>
+	<titlebar title="发布活动" class="titlebar" id="title" iconhref="script:close" riconhref="dosubmit();" rcaption="发布"/>
+</header>
+<body style="padding: 4 0;background-color: #F1F0EF">
+	<div class="cdiv" id="posters_add" style="height: 120;text-valign: middle;text-align: center">
+		<div id="addposters" href="showPhotoUpload('posters_img')" style="text-align: center">
+			<img src="res:image/add-large.png" style="width: 40;margin: 0 0 5 0;"></img>
+			<br/>
+			<font class="commoncolor" style="margin: 5 0 0 0">添加活动海报</font>
+		</div>
+	</div>
+	<div class="cdiv" id="posters_imgdiv" style="height: 120;text-valign: middle;text-align: center;display: none">
+		<photoupload id="posters_img" style="width: 100%;height: 100;" nums="1" ondelete="posterdelete()" onback="postercall()"></photoupload>
+		<input type="hidden" id="posters_img_uuid" ></input>
+	</div>
+	<div class="cdiv">
+		<div class="tipdiv">
+			<img class="blockicon" src="res:image/block.png" ></img>
+			<efont class="tipcolor">活动标题<subfont style="color: red">  *</subfont></efont>
+		</div>
+		<input type="text" prompt="在此输入活动标题，15字以内..." class="input" id="activity_title"></input>
+	</div>
+	
+	<div class="cdiv">
+		<div class="tipdiv">
+			<img class="blockicon" src="res:image/block.png" ></img>
+			<efont class="tipcolor">活动详情<subfont style="color: red">  *</subfont></efont>
+		</div>
+		<textarea rows="4" class="input" prompt="在此输入活动详情，1500字以内..." id="activity_content"></textarea>
+		<hr style="margin:0 10;"/>
+		<div id="camera_add" style="height: 90;text-valign: middle;padding: 10">
+			<img style="width: 70;" src="res:image/camera.png" id="activity_img" href="showPhotoUpload('activity_photo')"></img>
+		</div>
+		<div id="camera_activity" style="height: 90;text-valign: middle;padding: 10;display: none">
+			<photoupload id="activity_photo" nums="3" ondelete="activitycall()" onback="activitycall()"></photoupload>
+			<input type="hidden" id="activity_imgs"></input>
+		</div>
+		<br/>
+		<font style="color: #323333;align: right;margin: 10">最多支持9张图片</font>
+	</div>
+	
+	<div class="cdiv">
+		<efont class="lfont">开始时间<subfont style="color: red">  *</subfont></efont>
+		<object type="date" style="width: 40%" id="startdate"></object><object type="time" style="width: 30%" id="starttime"></object>
+		<hr/>
+		<efont class="lfont">结束时间<subfont style="color: red">  *</subfont></efont>
+		<object type="date" style="width: 40%" id="enddate"></object><object type="time" style="width: 30%" id="endtime"></object>
+		<hr/>
+		<efont class="lfont">地址<subfont style="color: red">  *</subfont></efont>
+		<input type="text" class="rlabel" prompt="请输入地址" id="address"></input>
+	</div>
+	
+	<div class="cdiv">
+		<efont class="lfont">报名截止<subfont style="color: red">  *</subfont></efont>
+		<object type="date" style="width: 40%" id="deadlinedate"></object><object type="time" style="width: 30%" id="deadlinetime"></object>
+		<hr/>
+		<efont class="lfont">活动咨询<subfont style="color: red">  *</subfont></efont>
+		<input type="text" prompt="请输入联系手机" class="rlabel" inputlimit="digit" id="contact_tel"></input>
+		<hr/>
+		<efont class="lfont">人数限制</efont>
+		<input type="text" prompt="不填视为无限制" class="rlabel" inputlimit="digit" id="person_limit"></input>
+		<hr/>
+		<efont class="lfont" style="width: 100%;margin: 15 0 0 10;">用户报名必填项</efont>
+		<br/>
+		<div style="padding: 10 0 10 10;">
+			<input type="checkbox" value="tel_no" caption="手机号" name="necessary"></input>
+			<input type="checkbox" value="identify_id" caption="身份证" name="necessary"></input>
+			<input type="checkbox" value="sex" caption="性别" name="necessary"></input>
+			<input type="checkbox" value="remark" caption="备注" name="necessary"></input>
+		</div>
+
+	</div>
+</body>
+
+</html>

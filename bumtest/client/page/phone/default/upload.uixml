@@ -1,0 +1,17 @@
+<!-- ExMobi UIXML(XHTML)文件 -->
+<html>
+	<head>
+		<meta content="charset=utf-8"/>
+		<title>Hello World</title>
+		<script>
+		<![CDATA[
+			
+		]]>
+		</script>
+	</head>
+	<body>
+		<form name="Form2" action="http://springupload" method="post" enctype="multipart/form-data">
+		<input type="file" name="file"/> <input type="submit" value="upload" />
+	</form>
+	</body>
+</html>
